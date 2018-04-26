@@ -9,9 +9,10 @@ export async function getDecks() {
     if (decks !== null) {
       // we have data
       console.log('Returning decks')
-      return decks
+      return JSON.parse(decks)
     } else {
       console.log(`Returning demoDecks`)
+      mergeDecks(demoDecks)
       return demoDecks
     }
   } catch (error) {
@@ -30,4 +31,13 @@ export function saveDeckTitle(title) {
 
 export function addCardToDeck({ title, card }) {
 
+}
+
+export async function mergeDecks(data) {
+  try {
+    const result = await AsyncStorage.mergeItem(FLASHCARDS_STORAGE_KEY, JSON.stringify(data))
+    console.log('Merge OK')
+  } catch (error) {
+    console.log('Error with merge', error)
+  }
 }
