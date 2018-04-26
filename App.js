@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, StatusBar } from 'react-native';
 import { TabNavigator, StackNavigator } from 'react-navigation'
 import Decks from './components/Decks'
+import Deck from './components/Deck'
 import NewDeck from './components/NewDeck'
 import Quiz from './components/Quiz'
 import { Constants } from 'expo'
@@ -36,6 +37,9 @@ const Tabs = TabNavigator({
 const MainNavigator = StackNavigator({
   Home: {
     screen: Tabs,
+  },
+  Deck: {
+    screen: Deck,
   },
   Quiz: {
     screen: Quiz,

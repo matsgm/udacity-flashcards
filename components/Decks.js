@@ -36,8 +36,8 @@ class Decks extends Component {
               <Text>{decks[o].title}</Text>
               <Text>{decks[o].questions.length} cards</Text>
               <Button
-                title="Start quiz"
-                onPress={() => this.props.navigation.navigate('Quiz', {title: decks[o].title})}
+                title="Go to deck"
+                onPress={() => this.props.navigation.navigate('Deck', {...decks[o]})}
               />
             </View>
           )
