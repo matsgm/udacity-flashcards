@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
-import { getDecks, getDemoDecks } from '../utils/api'
+import { getDecks } from '../utils/api'
 import Question from './Question'
 import Result from './Result'
 
@@ -14,7 +14,6 @@ class Quiz extends Component {
       quizFinished: false,
       correctAnswers: 0,
     }
-
   }
 
   static navigationOptions = ({ navigation }) => {
@@ -65,10 +64,8 @@ class Quiz extends Component {
     }))
   }
 
-  componentDidMount() {
-    //var decks = getDecks()
-
-    const decks = getDemoDecks()
+  async componentDidMount() {
+    const decks = await getDecks()
 
     //console.log('My deck', decks[this.props.navigation.state.params.title])
 

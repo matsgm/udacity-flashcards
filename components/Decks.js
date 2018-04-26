@@ -1,32 +1,43 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Button } from 'react-native'
-import { getDecks, getDemoDecks } from '../utils/api'
+import { getDecks } from '../utils/api'
 
 class Decks extends Component {
-  state = {
-    React: {
-      title: 'Other'
+  constructor(props) {
+    super(props)
+    this.state = {
+      loading: true,
     }
   }
-  componentDidMount(){
 
-    /*
-    var decks = getDecks()
+  async componentDidMount(){
 
-    if (!decks) decks = getDemoDecks()
+    var decks = await getDecks()
 
     this.setState( state => {
       return {
-        ...decks
+        decks: {
+          ...decks,
+        },
+        loading: false
       }
     })
-    */
+
+    console.log(this.state.loading)
+
 
   }
 
   render() {
-    const decks = getDemoDecks()
+    if (this.state.loading === true) {
+      return (
+        <View>
+          <Text>Loading...</Text>
+        </View>
+      )
+    }
 
+    const decks = this.state.decks
     return (
       <View style={styles.container}>
         {Object.keys(decks).map(o => {
@@ -42,6 +53,7 @@ class Decks extends Component {
             </View>
           )
         })}
+
       </View>
     )
   }
@@ -54,6 +66,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
+    marginTop: 10,
   },
   deck: {
     width: '90%',
