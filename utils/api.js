@@ -21,16 +21,45 @@ export async function getDecks() {
   
 }
 
-export function getDeck(id) {
-
+export async function getDeck(id) {
+  console.log('getting deck')
+  try {
+    const result = await AsyncStorage.getItem(FLASHCARDS_STORAGE_KEY)
+    console.log('Got deck', JSON.parse(result))
+    return JSON.parse(result)
+  } catch (error) {
+    console.log('Error with getDeck', error)
+    return error
+  }
 }
 
-export function saveDeckTitle(title) {
-
+export async function saveDeckTitle(title) {
+  console.log('saveDeckTitle. Title: ', title)
+  try {
+    const result = await AsyncStorage.mergeItem(FLASHCARDS_STORAGE_KEY, JSON.stringify({
+      [title]: {
+        title: title,
+        questions: []
+      }
+    }))
+  } catch (error) {
+    console.log('Error in saveDeckTitle', error)
+  }
 }
 
-export function addCardToDeck({ title, card }) {
 
+export async function addCardToDeck({ title, updatedQuestions }) {
+  console.log('api: addCardToDeck. UpdatedDeck: ', updatedQuestions)
+  try {
+    const result = await AsyncStorage.mergeItem(FLASHCARDS_STORAGE_KEY, JSON.stringify({
+      [title]: {
+        questions: updatedQuestions
+      }
+    }))
+    console.log('AddCard OK')
+  } catch (error) {
+    console.log('Error with addCard', error)
+  }
 }
 
 export async function mergeDecks(data) {

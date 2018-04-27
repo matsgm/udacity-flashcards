@@ -5,6 +5,7 @@ import Decks from './components/Decks'
 import Deck from './components/Deck'
 import NewDeck from './components/NewDeck'
 import Quiz from './components/Quiz'
+import AddCard from './components/AddCard'
 import { Constants } from 'expo'
 
 //TODO: Remove after development
@@ -43,6 +44,9 @@ const MainNavigator = StackNavigator({
   },
   Quiz: {
     screen: Quiz,
+  },
+  AddCard: {
+    screen: AddCard,
   }
 })
 

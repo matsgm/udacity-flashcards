@@ -1,7 +1,15 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Text, Button, TouchableOpacity } from 'react-native'
+import { getDeck, addCardToDeck } from '../utils/api'
 
 class Deck extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      loading: true,
+    }
+  }
+
   static navigationOptions = ({ navigation }) => {
     const { title } = navigation.state.params
 
@@ -10,20 +18,73 @@ class Deck extends Component {
     }
   }
 
+  
+  async componentDidMount() {
+    const title = this.props.navigation.state.params.title
+    const deck = await getDeck(title)
+    console.log('Retrieved deck', deck)
+    this.setState( state => {
+      return {
+        deck: {
+          ...deck[title],
+        },
+        loading: false
+      }
+    })
+  }
+  
+
+  async addCard({ title, card }) {
+    console.log('addCard. card:', card)
+    const updatedQuestions = this.state.deck.questions.concat(card)
+    
+    await addCardToDeck({title, updatedQuestions})
+
+    this.setState( state => ({
+        ...state,
+        deck: {
+          ...state.deck,
+          questions: updatedQuestions
+        }
+      })
+    )
+
+    console.log('State', this.state)
+    
+  }
+
+  async handleSubmit(card) {
+    console.log('Handling submit. Card: ', card)
+    const title = this.props.navigation.state.params.title
+    await this.addCard({ title, card })
+    this.props.navigation.pop()
+  }
+
   render() {
-    const { questions } = this.props.navigation.state.params
+    if (this.state.loading === true) {
+      return (
+        <View>
+          <Text>Loading...</Text>
+        </View>
+      )
+    }
+    //const { questions, title } = this.props.navigation.state.params
+    const { questions, title } = this.state.deck
     return (
       <View style={styles.container}>
         <View style={styles.deck}>
-          <Text style={styles.deckTitle}>Deck</Text>
+          <Text style={styles.deckTitle}>{title} deck</Text>
           <Text style={styles.text}>{questions.length} cards</Text>
           <TouchableOpacity
             style={styles.button}
             onPress={() => this.props.navigation.navigate('Quiz', {...this.props.navigation.state.params}) }
-          >
+            >
             <Text style={styles.buttonText}>Start quiz</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => this.props.navigation.navigate('AddCard', {...this.props.navigation.state.params, handleSubmit: (card) => this.handleSubmit(card)}) }
+            >
             <Text style={styles.buttonText}>Add card</Text>
           </TouchableOpacity>
         </View>

@@ -10,7 +10,15 @@ class Decks extends Component {
     }
   }
 
-  async componentDidMount(){
+  componentWillMount() {
+    this.fetchDecksForState()
+  }
+
+  componentDidMount() {
+    //this.fetchDecksForState()
+  }
+
+  async fetchDecksForState() {
 
     var decks = await getDecks()
 
@@ -22,11 +30,8 @@ class Decks extends Component {
         loading: false
       }
     })
-
-    console.log(this.state.loading)
-
-
   }
+
 
   render() {
     if (this.state.loading === true) {

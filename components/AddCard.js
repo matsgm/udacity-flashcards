@@ -1,41 +1,57 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity } from 'react-native'
-import { saveDeckTitle } from '../utils/api'
 
-class NewDeck extends Component {
+class AddCard extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      title: 'Title'
+      question: 'Question',
+      answer: 'Answer'
     }
   }
 
-  async handleSubmitTitle(title) {
-    console.log('Handlesubmit. Title:', title)
-    await saveDeckTitle(title)
-    this.props.navigation.goBack()
+  static navigationOptions = ({ navigation }) => {
+    const { title } = navigation.state.params
+
+    return {
+      title: `Add card to ${title} deck`,
+    }
   }
 
+
+
   render() {
-    return (
+    const { handleSubmit } = this.props.navigation.state.params
+    return(
       <View style={styles.container}>
         <View style={styles.card}>
-          <Text style={styles.text}>Deck title</Text>
+          <Text style={styles.text}>Question</Text>
           <TextInput
             editable={true}
             multiline={true}
             underlineColorAndroid={'transparent'}
             style={styles.textInput}
-            value={this.state.title}
+            value={this.state.question}
             onChangeText={ text => this.setState({
-              title: text
+              question: text
+            })}
+          />
+          <Text style={styles.text}>Answer</Text>
+          <TextInput
+            editable={true}
+            multiline={true}
+            underlineColorAndroid={'transparent'}
+            style={styles.textInput}
+            value={this.state.answer}
+            onChangeText={ text => this.setState({
+              answer: text
             })}
           />
           <TouchableOpacity
             style={styles.button}
-            onPress={() => this.handleSubmitTitle(this.state.title) }
+            onPress={() => handleSubmit(this.state) }
             >
-            <Text style={styles.buttonText}>Create deck</Text>
+            <Text style={styles.buttonText}>Submit card</Text>
           </TouchableOpacity>
         </View>
         
@@ -43,6 +59,8 @@ class NewDeck extends Component {
     )
   }
 }
+
+export default AddCard
 
 const styles = StyleSheet.create({
   container: {
@@ -74,13 +92,10 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   textInput: {
-    width: '50%',
-    backgroundColor: '#ffffff',
-    marginBottom: 5
+    width: '75%',
+    backgroundColor: '#ffffff'
   },
   text: {
     fontSize: 25,
   }
 })
-
-export default NewDeck
