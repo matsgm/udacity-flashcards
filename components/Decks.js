@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, Button } from 'react-native'
+import { View, Text, StyleSheet, Button, ScrollView } from 'react-native'
 import { getDecks } from '../utils/api'
 
 class Decks extends Component {
@@ -10,16 +10,12 @@ class Decks extends Component {
     }
   }
 
-  componentWillMount() {
+
+  componentDidMount() {
     this.fetchDecksForState()
   }
 
-  componentDidMount() {
-    //this.fetchDecksForState()
-  }
-
   async fetchDecksForState() {
-
     var decks = await getDecks()
 
     this.setState( state => {
@@ -41,25 +37,28 @@ class Decks extends Component {
         </View>
       )
     }
+    
 
     const decks = this.state.decks
     return (
-      <View style={styles.container}>
-        {Object.keys(decks).map(o => {
-          console.log(decks[o].title)
-          return (
-            <View key={o} style={styles.deck}>
-              <Text>{decks[o].title}</Text>
-              <Text>{decks[o].questions.length} cards</Text>
-              <Button
-                title="Go to deck"
-                onPress={() => this.props.navigation.navigate('Deck', {...decks[o]})}
-              />
-            </View>
-          )
-        })}
+      <ScrollView>
+        <View style={styles.container}>
+          {Object.keys(decks).map(o => {
+            console.log(decks[o].title)
+            return (
+              <View key={o} style={styles.deck}>
+                <Text>{decks[o].title}</Text>
+                <Text>{decks[o].questions.length} cards</Text>
+                <Button
+                  title="Go to deck"
+                  onPress={() => this.props.navigation.navigate('Deck', {...decks[o]})}
+                />
+              </View>
+            )
+          })}
+        </View>
+      </ScrollView>
 
-      </View>
     )
   }
 }
