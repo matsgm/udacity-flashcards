@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Button, TextInput, TouchableOpacity } from 'react-native'
 import { saveDeckTitle } from '../utils/api'
+import { connect } from 'react-redux'
+import { saveDeckTitleToStore } from '../actions'
 
 class NewDeck extends Component {
   constructor(props) {
@@ -13,6 +15,7 @@ class NewDeck extends Component {
   async handleSubmitTitle(title) {
     console.log('Handlesubmit. Title:', title)
     await saveDeckTitle(title)
+    this.props.dispatchSaveDeckTitleToStore(title)
     this.props.navigation.goBack()
   }
 
@@ -83,4 +86,14 @@ const styles = StyleSheet.create({
   }
 })
 
-export default NewDeck
+const mapDispatchToProps = (dispatch) => ({
+  dispatchSaveDeckTitleToStore: (title) => dispatch(saveDeckTitleToStore(title))
+})
+
+const mapStateToProps = (state) => ({
+  ...state
+})
+
+export default connect(
+  mapStateToProps, mapDispatchToProps
+)(NewDeck)

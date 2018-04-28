@@ -4,8 +4,10 @@ import { FLASHCARDS_STORAGE_KEY } from './_flashcards'
 const demoDecks = require ('./demoDecks.json')
 
 export async function getDecks() {
+  console.log('getDecks()')
   try {
     const decks = await AsyncStorage.getItem(FLASHCARDS_STORAGE_KEY)
+    console.log('awaited asyncstorage')
     if (decks !== null) {
       // we have data
       console.log('Returning decks')

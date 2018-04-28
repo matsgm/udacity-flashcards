@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { View, Text, StyleSheet, Button, ScrollView } from 'react-native'
 import { getDecks } from '../utils/api'
+import { connect } from 'react-redux'
+import { saveDecksToStore } from '../actions'
 
 class Decks extends Component {
   constructor(props) {
@@ -11,22 +13,21 @@ class Decks extends Component {
   }
 
 
-  componentDidMount() {
-    this.fetchDecksForState()
-  }
-
-  async fetchDecksForState() {
+  async componentDidMount() {
+    // get decks from AsyncStorage
     var decks = await getDecks()
 
+    // dispatch decks to redux
+    this.props.dispatchSaveDecksToStore(decks)
+    
+    // set loading to false
     this.setState( state => {
       return {
-        decks: {
-          ...decks,
-        },
         loading: false
       }
     })
   }
+
 
 
   render() {
@@ -39,7 +40,7 @@ class Decks extends Component {
     }
     
 
-    const decks = this.state.decks
+    const decks = this.props.decks
     return (
       <ScrollView>
         <View style={styles.container}>
@@ -63,8 +64,6 @@ class Decks extends Component {
   }
 }
 
-export default Decks
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -82,3 +81,15 @@ const styles = StyleSheet.create({
   }
 })
 
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatchSaveDecksToStore: (decks) => dispatch(saveDecksToStore(decks))
+})
+
+const mapStateToProps = (state) => ({
+  ...state
+})
+
+export default connect(
+  mapStateToProps, mapDispatchToProps
+)(Decks)

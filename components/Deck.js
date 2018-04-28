@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Text, Button, TouchableOpacity } from 'react-native'
 import { getDeck, addCardToDeck } from '../utils/api'
+import { connect } from 'react-redux'
+import { addCardToStore } from '../actions'
 
 class Deck extends Component {
   constructor(props) {
@@ -40,6 +42,8 @@ class Deck extends Component {
     
     await addCardToDeck({title, updatedQuestions})
 
+    this.props.dispatchAddCardToStore({title, card})
+
     this.setState( state => ({
         ...state,
         deck: {
@@ -68,8 +72,8 @@ class Deck extends Component {
         </View>
       )
     }
-    //const { questions, title } = this.props.navigation.state.params
-    const { questions, title } = this.state.deck
+    const { title } = this.props.navigation.state.params
+    const { questions } = this.props.decks[title]
     return (
       <View style={styles.container}>
         <View style={styles.deck}>
@@ -92,8 +96,6 @@ class Deck extends Component {
     )
   }
 }
-
-export default Deck
 
 const styles = StyleSheet.create({
   container: {
@@ -134,3 +136,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   }
 })
+
+const mapDispatchToProps = (dispatch) => ({
+  dispatchAddCardToStore: (card) => dispatch(addCardToStore(card))
+})
+
+const maptStateToProps = (state) => ({
+  ...state
+})
+
+export default connect(
+  maptStateToProps, mapDispatchToProps
+)(Deck)

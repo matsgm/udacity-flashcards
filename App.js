@@ -8,6 +8,12 @@ import Quiz from './components/Quiz'
 import AddCard from './components/AddCard'
 import { Constants } from 'expo'
 
+import { createStore, compose, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import reducer from './reducers'
+import thunkMiddleware from 'redux-thunk';
+
+
 //TODO: Remove after development
 console.disableYellowBox = true
 
@@ -18,6 +24,24 @@ function FlashCardsStatusBar ({backgroundColor, ...props}) {
     </View>
   )
 }
+
+const logger = store => next => action => {
+  console.group(action.type)
+  console.info('dispatching', action)
+  let result = next(action)
+  console.log('next state', store.getState())
+  console.groupEnd(action.type)
+  return result
+}
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
+
+const store = createStore(
+  reducer,
+  composeEnhancers(
+    applyMiddleware(thunkMiddleware,logger)
+  )
+)
 
 const Tabs = TabNavigator({
   Decks: {
@@ -53,10 +77,13 @@ const MainNavigator = StackNavigator({
 export default class App extends React.Component {
   render() {
     return (
-      <View style={{flex: 1}}>
-        <FlashCardsStatusBar backgroundColor={'#000000'} barStyle="light-content" />
-        <MainNavigator/>
-      </View>
+      <Provider store={store}>
+        <View style={{flex: 1}}>
+          <FlashCardsStatusBar backgroundColor={'#000000'} barStyle="light-content" />
+          <MainNavigator/>
+        </View>
+      </Provider>
+
     );
   }
 }
