@@ -141,10 +141,10 @@ const mapDispatchToProps = (dispatch) => ({
   dispatchAddCardToStore: (card) => dispatch(addCardToStore(card))
 })
 
-const maptStateToProps = (state) => ({
+const mapStateToProps = (state) => ({
   ...state
 })
 
 export default connect(
-  maptStateToProps, mapDispatchToProps
+  mapStateToProps, mapDispatchToProps
 )(Deck)

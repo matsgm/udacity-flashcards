@@ -3,6 +3,7 @@ import { View, Text } from 'react-native'
 import { getDecks } from '../utils/api'
 import Question from './Question'
 import Result from './Result'
+import { scheduleNotificationForTomorrow } from '../utils/notification'
 
 class Quiz extends Component {
   constructor(props) {
@@ -46,6 +47,9 @@ class Quiz extends Component {
     }
 
     if (this.state.questionNumber === this.state.questions.length) {
+      scheduleNotificationForTomorrow()
+      console.log('scheduled...')
+
       this.setState(state => ({
         ...state,
         quizFinished: true
