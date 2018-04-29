@@ -31,7 +31,7 @@ class AddCard extends Component {
             multiline={true}
             underlineColorAndroid={'transparent'}
             style={styles.textInput}
-            value={this.state.question}
+            placeholder={this.state.question}
             onChangeText={ text => this.setState({
               question: text
             })}
@@ -42,7 +42,7 @@ class AddCard extends Component {
             multiline={true}
             underlineColorAndroid={'transparent'}
             style={styles.textInput}
-            value={this.state.answer}
+            placeholder={this.state.answer}
             onChangeText={ text => this.setState({
               answer: text
             })}

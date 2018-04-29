@@ -31,7 +31,7 @@ class NewDeck extends Component {
             multiline={true}
             underlineColorAndroid={'transparent'}
             style={styles.textInput}
-            value={this.state.title}
+            placeholder={this.state.title}
             onChangeText={ text => this.setState({
               title: text
             })}
