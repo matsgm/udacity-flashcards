@@ -1,3 +1,19 @@
+# FlashCards
+
+This is the final assessment on Udacity's React Nanodegree covering React Native. The project is created with React Native app and is using Expo.
+
+It is tested on Android.
+
+The app is a "flash cards" app for doing exam preparations.
+
+## Quick Start
+
+* Install and start the Expo server
+    - `npm install`
+    - `yarn start`
+
+## Create React Native App - More detailed information
+
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
