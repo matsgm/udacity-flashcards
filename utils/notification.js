@@ -50,7 +50,7 @@ async function scheduleNotification() {
     localNotification,
     {
       time: t,
-      repeat: 'minute',
+      repeat: 'day',
     }
   )
   //console.log('notification result', result)
