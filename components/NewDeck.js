@@ -16,7 +16,9 @@ class NewDeck extends Component {
     console.log('Handlesubmit. Title:', title)
     await saveDeckTitle(title)
     this.props.dispatchSaveDeckTitleToStore(title)
+    // navigate back and then to new deck. This makes the back button work correctly.
     this.props.navigation.goBack()
+    this.props.navigation.navigate('Deck', {...this.props.decks[title]})
   }
 
   render() {

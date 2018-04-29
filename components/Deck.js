@@ -37,12 +37,22 @@ class Deck extends Component {
         <View style={styles.deck}>
           <Text style={styles.deckTitle}>{title} deck</Text>
           <Text style={styles.text}>{questions.length} cards</Text>
+          {questions.length > 0 ? (
           <TouchableOpacity
             style={styles.button}
             onPress={() => this.props.navigation.navigate('Quiz', {...this.props.navigation.state.params}) }
             >
             <Text style={styles.buttonText}>Start quiz</Text>
           </TouchableOpacity>
+          ) : (
+          <TouchableOpacity
+            style={styles.button}
+            >
+            <Text style={styles.buttonText}>Add card to start quiz</Text>
+          </TouchableOpacity>
+          )}
+
+          
           <TouchableOpacity
             style={styles.button}
             onPress={() => this.props.navigation.navigate('AddCard', {...this.props.navigation.state.params, handleSubmit: (card) => this.handleSubmit(card)}) }
