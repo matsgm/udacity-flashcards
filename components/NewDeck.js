@@ -8,7 +8,7 @@ class NewDeck extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      title: 'Title'
+      title: ' '
     }
   }
 
@@ -22,6 +22,7 @@ class NewDeck extends Component {
   }
 
   render() {
+    const {title} = this.state
     return (
       <View style={styles.container}>
         <View style={styles.card}>
@@ -31,9 +32,9 @@ class NewDeck extends Component {
             multiline={true}
             underlineColorAndroid={'transparent'}
             style={styles.textInput}
-            placeholder={this.state.title}
-            onChangeText={ text => this.setState({
-              title: text
+            placeholder={title}
+            onChangeText={ title => this.setState({
+              title
             })}
           />
           <TouchableOpacity
