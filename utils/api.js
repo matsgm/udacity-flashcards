@@ -27,7 +27,7 @@ export async function getDeck(id) {
   console.log('getting deck')
   try {
     const result = await AsyncStorage.getItem(FLASHCARDS_STORAGE_KEY)
-    console.log('Got deck', JSON.parse(result))
+    //console.log('Got deck', JSON.parse(result))
     return JSON.parse(result)
   } catch (error) {
     console.log('Error with getDeck', error)

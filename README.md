@@ -2,15 +2,21 @@
 
 This is the final assessment on Udacity's React Nanodegree covering React Native. The project is created with React Native app and is using Expo.
 
-It is tested on Android.
+* It is tested on Android.
+* Two decks are included for testing and dev purpose.
 
 The app is a "flash cards" app for doing exam preparations.
+After you've finished your first quiz the app will schedule a daily reminder starting the next day at 19 (7PM) local time. The notification will be shown if a quiz is not completed during each day.
 
 ## Quick Start
 
 * Install and start the Expo server
     - `npm install`
     - `yarn start`
+
+## Troubleshooting during development
+
+* Reading from AsyncStorage might freeze at loading. Clear data from App Settings in Android.
 
 ## Create React Native App - More detailed information
 

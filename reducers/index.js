@@ -9,7 +9,6 @@ const initialState = {
 
 function decks (state = {}, action) {
   const { decks, card, title } = action
-  console.log('reducer')
 
   switch (action.type) {
 

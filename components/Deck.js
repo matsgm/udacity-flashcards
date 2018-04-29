@@ -5,13 +5,6 @@ import { connect } from 'react-redux'
 import { addCardToStore } from '../actions'
 
 class Deck extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      loading: true,
-    }
-  }
-
   static navigationOptions = ({ navigation }) => {
     const { title } = navigation.state.params
 
@@ -20,41 +13,13 @@ class Deck extends Component {
     }
   }
 
-  
-  async componentDidMount() {
-    const title = this.props.navigation.state.params.title
-    const deck = await getDeck(title)
-    console.log('Retrieved deck', deck)
-    this.setState( state => {
-      return {
-        deck: {
-          ...deck[title],
-        },
-        loading: false
-      }
-    })
-  }
-  
-
   async addCard({ title, card }) {
     console.log('addCard. card:', card)
-    const updatedQuestions = this.state.deck.questions.concat(card)
+    const updatedQuestions = this.props.decks[title].questions.concat(card)
     
     await addCardToDeck({title, updatedQuestions})
 
     this.props.dispatchAddCardToStore({title, card})
-
-    this.setState( state => ({
-        ...state,
-        deck: {
-          ...state.deck,
-          questions: updatedQuestions
-        }
-      })
-    )
-
-    console.log('State', this.state)
-    
   }
 
   async handleSubmit(card) {
@@ -65,13 +30,6 @@ class Deck extends Component {
   }
 
   render() {
-    if (this.state.loading === true) {
-      return (
-        <View>
-          <Text>Loading...</Text>
-        </View>
-      )
-    }
     const { title } = this.props.navigation.state.params
     const { questions } = this.props.decks[title]
     return (

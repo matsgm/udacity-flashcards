@@ -19,13 +19,13 @@ const localNotification = {
 
 export async function scheduleNotificationForTomorrow() {
   const data = await AsyncStorage.getItem(NOTIFICATION_KEY)
-  console.log('data is', data)
+  //console.log('data is', data)
   if (data === null) {
-    console.log('data is null')
+    //console.log('data is null')
     const status = await Permissions.askAsync(Permissions.NOTIFICATIONS)
-    console.log('status is', status)
+    //console.log('status is', status)
     if (status.status === 'granted') {
-      console.log('granted')
+      //console.log('granted')
       scheduleNotification()
     }
   } else {
@@ -39,14 +39,20 @@ async function scheduleNotification() {
   t.setDate(t.getDate()+1)
   t.setHours(19)
   t.setMinutes(0)
+  t.setSeconds(2)
+
+  
+  // for testingpurposes
+  //t.setMinutes(t.getMinutes()+1)
+  console.log(`Notification scheduled for ${t.toISOString()}`)
 
   const result = await Notifications.scheduleLocalNotificationAsync(
     localNotification,
     {
       time: t,
-      repeat: 'day',
+      repeat: 'minute',
     }
   )
-  console.log('notification result', result)
+  //console.log('notification result', result)
   AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
 }
